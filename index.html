@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="C:\Phython\ecommerce\assests\css\style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RajuKart - Your One-Stop Shopping Destination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'turquoise': {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Login/Signup Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome to RajuKart</h2>
+                    <p class="text-gray-600 mb-3">Choose how you'd like to continue</p>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                        <p class="text-yellow-800 text-sm font-medium">📚 Educational Project Notice</p>
+                        <p class="text-yellow-700 text-xs mt-1">This is for project purpose - Don't put your personal information here!</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <button onclick="continueAsGuest()" class="w-full bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg transition-colors">
+                        Continue as Guest
+                    </button>
+                    <button onclick="showLoginForm()" class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white py-3 rounded-lg transition-colors">
+                        Login
+                    </button>
+                    <button onclick="showSignupForm()" class="w-full border border-turquoise-600 text-turquoise-600 hover:bg-turquoise-50 py-3 rounded-lg transition-colors">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Login</h2>
+                    <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                
+                <form onsubmit="handleLogin(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Username/Email</label>
+                            <input type="text" id="loginUsername" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" id="loginPassword" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <button type="submit" class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white py-3 rounded-lg transition-colors">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-4 text-center">
+                    <p class="text-gray-600">Don't have an account? 
+                        <button onclick="showSignupForm()" class="text-turquoise-600 hover:underline">Sign up</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Form Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Sign Up</h2>
+                    <button onclick="closeSignupModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                
+                <form onsubmit="handleSignup(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="signupName" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" id="signupEmail" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Username</label>
+                            <input type="text" id="signupUsername" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" id="signupPassword" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                        </div>
+                        <button type="submit" class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white py-3 rounded-lg transition-colors">
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-4 text-center">
+                    <p class="text-gray-600">Already have an account? 
+                        <button onclick="showLoginForm()" class="text-turquoise-600 hover:underline">Login</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-turquoise-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-3xl font-bold">RajuKart</h1>
+                    <span class="text-turquoise-200 text-sm">Your One-Stop Shopping Destination</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <input type="text" placeholder="Search products..." class="px-4 py-2 rounded-lg text-gray-800 w-80" id="searchInput">
+                        <button class="absolute right-2 top-2 text-gray-600 hover:text-turquoise-600">🔍</button>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="toggleWishlist()" class="bg-turquoise-500 hover:bg-turquoise-400 px-4 py-2 rounded-lg transition-colors">
+                            ❤️ Wishlist (<span id="wishlistCount">0</span>)
+                        </button>
+                        <button onclick="openCart()" class="bg-turquoise-500 hover:bg-turquoise-400 px-4 py-2 rounded-lg transition-colors">
+                            🛒 Cart (<span id="cartCount">0</span>)
+                        </button>
+                        <button onclick="showOrderTracking()" class="bg-turquoise-500 hover:bg-turquoise-400 px-4 py-2 rounded-lg transition-colors">
+                            📦 Track Order
+                        </button>
+                        <button onclick="showAnalytics()" id="analyticsBtn" class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg transition-colors hidden">
+                            📊 Analysis
+                        </button>
+                        <div class="flex items-center space-x-2">
+                            <span id="userInfo" class="text-sm"></span>
+                            <button onclick="logout()" id="logoutBtn" class="text-turquoise-200 hover:text-white text-sm hidden">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-turquoise-700 text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-8 py-3">
+                <button onclick="showCategory('all')" class="hover:text-turquoise-200 transition-colors category-btn active">All Products</button>
+                <button onclick="showCategory('electronics')" class="hover:text-turquoise-200 transition-colors category-btn">Electronics</button>
+                <button onclick="showCategory('clothing')" class="hover:text-turquoise-200 transition-colors category-btn">Clothing & Apparel</button>
+                <button onclick="showCategory('books')" class="hover:text-turquoise-200 transition-colors category-btn">Books & Stationery</button>
+                <button onclick="showCategory('health')" class="hover:text-turquoise-200 transition-colors category-btn">Health & Wellness</button>
+                <button onclick="showCategory('home')" class="hover:text-turquoise-200 transition-colors category-btn">Home & Kitchen</button>
+                <button onclick="showCategory('beauty')" class="hover:text-turquoise-200 transition-colors category-btn">Beauty & Personal Care</button>
+                <button onclick="showCategory('toys')" class="hover:text-turquoise-200 transition-colors category-btn">Toys & Games</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Category Header -->
+        <div class="mb-8">
+            <h2 id="categoryTitle" class="text-3xl font-bold text-gray-800 mb-2">All Products</h2>
+            <p id="categoryDescription" class="text-gray-600">Discover amazing products across all categories</p>
+            <div class="mt-4 flex items-center space-x-4">
+                <span class="text-gray-700">Sort by:</span>
+                <select id="sortSelect" class="border border-gray-300 rounded-lg px-3 py-2" onchange="sortProducts()">
+                    <option value="name">Name</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+                <span id="productCount" class="text-turquoise-600 font-semibold"></span>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-8">
+            <button id="loadMoreBtn" onclick="loadMoreProducts()" class="bg-turquoise-600 hover:bg-turquoise-700 text-white px-8 py-3 rounded-lg transition-colors">
+                Load More Products
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-turquoise-800 text-white mt-16">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">RajuKart</h3>
+                    <p class="text-turquoise-200 text-sm mb-4">Your One-Stop Shopping Destination</p>
+                    <p class="text-turquoise-200 text-sm">Discover amazing products across all categories with great deals and fast delivery.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Return Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div>
+                    <h4 class="font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Electronics</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Clothing & Apparel</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Books & Stationery</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Health & Wellness</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Home & Kitchen</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="font-semibold mb-4">Customer Service</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Track Your Order</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Returns & Exchanges</a></li>
+                        <li><a href="#" class="text-turquoise-200 hover:text-white transition-colors">Size Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Educational Notice -->
+            <div class="border-t border-turquoise-700 mt-8 pt-6">
+                <div class="bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded-lg p-4 mb-6">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-yellow-400 text-lg">📚</span>
+                        <h5 class="text-yellow-400 font-semibold">Educational Project Notice</h5>
+                    </div>
+                    <p class="text-yellow-200 text-sm">
+                        This website is created for educational and project purposes only. It is designed to demonstrate e-commerce functionality, 
+                        data flows, and data analysis concepts. Please do not enter any real personal information, payment details, or sensitive data. 
+                        All transactions are simulated and no actual purchases will be processed.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-turquoise-200 text-sm mb-4 md:mb-0">
+                        © 2024 RajuKart. Educational Project - All rights reserved.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-turquoise-200 hover:text-white transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            📘
+                        </a>
+                        <a href="#" class="text-turquoise-200 hover:text-white transition-colors">
+                            <span class="sr-only">Twitter</span>
+                            🐦
+                        </a>
+                        <a href="#" class="text-turquoise-200 hover:text-white transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            📷
+                        </a>
+                        <a href="#" class="text-turquoise-200 hover:text-white transition-colors">
+                            <span class="sr-only">LinkedIn</span>
+                            💼
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-4xl w-full max-h-96 overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">My Wishlist</h3>
+                        <button onclick="closeWishlist()" class="text-gray-500 hover:text-gray-700">✕</button>
+                    </div>
+                    <div id="wishlistItems" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">Shopping Cart</h3>
+                        <button onclick="closeCart()" class="text-gray-500 hover:text-gray-700">✕</button>
+                    </div>
+                    <div id="cartItems"></div>
+                    <div class="border-t pt-4 mt-4">
+                        <div class="flex justify-between items-center text-xl font-bold">
+                            <span>Total: ₹<span id="cartTotal">0</span></span>
+                            <button onclick="checkout()" class="bg-turquoise-600 hover:bg-turquoise-700 text-white px-6 py-2 rounded-lg">
+                                Checkout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Required Modal -->
+    <div id="authRequiredModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Login Required</h3>
+                    <p class="text-gray-600 mb-6">You need to login to perform this action. Guest users can only browse products.</p>
+                    <div class="space-y-3">
+                        <button onclick="showLoginFromRequired()" class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white py-2 rounded-lg">
+                            Login
+                        </button>
+                        <button onclick="showSignupFromRequired()" class="w-full border border-turquoise-600 text-turquoise-600 hover:bg-turquoise-50 py-2 rounded-lg">
+                            Sign Up
+                        </button>
+                        <button onclick="closeAuthRequired()" class="w-full text-gray-500 hover:text-gray-700 py-2">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Placement Page -->
+    <div id="orderPlacementPage" class="fixed inset-0 bg-white hidden z-50 overflow-y-auto">
+        <div class="min-h-screen bg-gray-50">
+            <!-- Header -->
+            <div class="bg-turquoise-600 text-white p-4">
+                <div class="container mx-auto flex items-center justify-between">
+                    <h2 class="text-2xl font-bold">Complete Your Order</h2>
+                    <button onclick="closeOrderPlacement()" class="text-turquoise-200 hover:text-white text-2xl">✕</button>
+                </div>
+            </div>
+            
+            <div class="container mx-auto px-4 py-8 max-w-4xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Order Summary -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Order Summary</h3>
+                        <div id="orderSummaryItems" class="space-y-3 mb-4"></div>
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-center text-xl font-bold">
+                                <span>Total: ₹<span id="orderTotal">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Address & Payment Form -->
+                    <div class="space-y-6">
+                        <!-- Delivery Address -->
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-xl font-bold mb-4">Delivery Address</h3>
+                            <form id="addressForm">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Full Name *</label>
+                                        <input type="text" id="fullName" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Phone Number *</label>
+                                        <input type="tel" id="phoneNumber" required maxlength="10" pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Address Line 1 *</label>
+                                        <input type="text" id="addressLine1" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Address Line 2</label>
+                                        <input type="text" id="addressLine2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">City *</label>
+                                            <input type="text" id="city" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">State *</label>
+                                            <input type="text" id="state" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">PIN Code *</label>
+                                        <input type="text" id="pinCode" required maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit PIN code" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Payment Method -->
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-xl font-bold mb-4">Payment Method</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="cod" checked class="text-turquoise-600" onchange="showPaymentForm('cod')">
+                                    <span>Cash on Delivery (COD)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="upi" class="text-turquoise-600" onchange="showPaymentForm('upi')">
+                                    <span>UPI Payment</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="card" class="text-turquoise-600" onchange="showPaymentForm('card')">
+                                    <span>Credit/Debit Card</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="netbanking" class="text-turquoise-600" onchange="showPaymentForm('netbanking')">
+                                    <span>Net Banking</span>
+                                </label>
+                            </div>
+                            
+                            <!-- Payment Forms -->
+                            <div id="paymentForms" class="mt-4">
+                                <!-- COD Form (Default - No additional info needed) -->
+                                <div id="codForm" class="payment-form">
+                                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                        <p class="text-green-800 text-sm">✓ No additional information required. Pay when your order arrives!</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- UPI Form -->
+                                <div id="upiForm" class="payment-form hidden">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">UPI ID *</label>
+                                            <input type="text" id="upiId" placeholder="yourname@paytm / yourname@gpay" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">UPI PIN *</label>
+                                            <input type="password" id="upiPin" placeholder="Enter your UPI PIN" maxlength="6" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Card Form -->
+                                <div id="cardForm" class="payment-form hidden">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Card Number *</label>
+                                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Cardholder Name *</label>
+                                            <input type="text" id="cardholderName" placeholder="Name as on card" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-gray-700 mb-2">Expiry Date *</label>
+                                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                            </div>
+                                            <div>
+                                                <label class="block text-gray-700 mb-2">CVV *</label>
+                                                <input type="password" id="cvv" placeholder="123" maxlength="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Net Banking Form -->
+                                <div id="netbankingForm" class="payment-form hidden">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Select Your Bank *</label>
+                                            <select id="bankSelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                                <option value="">Choose your bank</option>
+                                                <option value="sbi">State Bank of India</option>
+                                                <option value="hdfc">HDFC Bank</option>
+                                                <option value="icici">ICICI Bank</option>
+                                                <option value="axis">Axis Bank</option>
+                                                <option value="pnb">Punjab National Bank</option>
+                                                <option value="bob">Bank of Baroda</option>
+                                                <option value="canara">Canara Bank</option>
+                                                <option value="union">Union Bank of India</option>
+                                                <option value="kotak">Kotak Mahindra Bank</option>
+                                                <option value="yes">Yes Bank</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Customer ID *</label>
+                                            <input type="text" id="customerId" placeholder="Enter your customer ID" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Login Password *</label>
+                                            <input type="password" id="netbankingPassword" placeholder="Enter your net banking password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Place Order Button -->
+                        <button onclick="placeOrder()" id="placeOrderBtn" class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white py-4 rounded-lg text-lg font-semibold transition-colors">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracking Modal -->
+    <div id="orderTrackingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Track Your Order</h3>
+                    <button onclick="closeOrderTracking()" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div class="text-center">
+                    <div class="mb-4">
+                        <span class="text-2xl">📦</span>
+                    </div>
+                    <div id="orderTrackingContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Cancellation Modal -->
+    <div id="orderCancellationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Cancel Order</h3>
+                    <button onclick="closeCancellationModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                
+                <div class="mb-4">
+                    <p class="text-gray-600 mb-4">Please tell us why you want to cancel this order:</p>
+                    
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="changed_mind" class="text-turquoise-600">
+                            <span>Changed my mind</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="found_better_price" class="text-turquoise-600">
+                            <span>Found better price elsewhere</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="delivery_delay" class="text-turquoise-600">
+                            <span>Delivery taking too long</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="wrong_item" class="text-turquoise-600">
+                            <span>Ordered wrong item by mistake</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="financial_issue" class="text-turquoise-600">
+                            <span>Financial constraints</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="cancellationReason" value="other" class="text-turquoise-600">
+                            <span>Other reason</span>
+                        </label>
+                    </div>
+                    
+                    <div id="otherReasonDiv" class="mt-4 hidden">
+                        <label class="block text-gray-700 mb-2">Please specify:</label>
+                        <textarea id="otherReason" placeholder="Tell us more..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-turquoise-500" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button onclick="closeCancellationModal()" class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50">
+                        Keep Order
+                    </button>
+                    <button onclick="confirmCancellation()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">
+                        Cancel Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div id="analyticsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">📊 Admin Analytics Dashboard</h3>
+                        <button onclick="closeAnalytics()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                    </div>
+                    
+                    <!-- Real-time Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Total Users -->
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm">Total Users</p>
+                                    <h4 id="totalUsers" class="text-3xl font-bold">0</h4>
+                                </div>
+                                <div class="text-4xl opacity-80">👥</div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="text-blue-100 text-sm">Registered: </span>
+                                <span id="registeredUsers" class="text-white font-semibold">0</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Orders -->
+                        <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-green-100 text-sm">Total Orders</p>
+                                    <h4 id="totalOrders" class="text-3xl font-bold">0</h4>
+                                </div>
+                                <div class="text-4xl opacity-80">📦</div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="text-green-100 text-sm">Revenue: ₹</span>
+                                <span id="totalRevenue" class="text-white font-semibold">0</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Active Sessions -->
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-purple-100 text-sm">Active Sessions</p>
+                                    <h4 id="activeSessions" class="text-3xl font-bold">1</h4>
+                                </div>
+                                <div class="text-4xl opacity-80">🔄</div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="text-purple-100 text-sm">Live Traffic</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Views -->
+                        <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-orange-100 text-sm">Page Views</p>
+                                    <h4 id="pageViews" class="text-3xl font-bold">0</h4>
+                                </div>
+                                <div class="text-4xl opacity-80">👁️</div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="text-orange-100 text-sm">This Session</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Tabs -->
+                    <div class="mb-6">
+                        <div class="flex space-x-4 border-b">
+                            <button onclick="showAnalyticsTab('overview')" id="overviewTab" class="px-4 py-2 font-semibold text-turquoise-600 border-b-2 border-turquoise-600">
+                                Overview
+                            </button>
+                            <button onclick="showAnalyticsTab('users')" id="usersTab" class="px-4 py-2 font-semibold text-gray-500 hover:text-gray-700">
+                                Users
+                            </button>
+                            <button onclick="showAnalyticsTab('orders')" id="ordersTab" class="px-4 py-2 font-semibold text-gray-500 hover:text-gray-700">
+                                Orders
+                            </button>
+                            <button onclick="showAnalyticsTab('products')" id="productsTab" class="px-4 py-2 font-semibold text-gray-500 hover:text-gray-700">
+                                Products
+                            </button>
+                            <button onclick="showAnalyticsTab('realtime')" id="realtimeTab" class="px-4 py-2 font-semibold text-gray-500 hover:text-gray-700">
+                                Real-time
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Content -->
+                    <div id="analyticsContent">
+                        <!-- Overview Tab -->
+                        <div id="overviewContent" class="analytics-tab-content">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Recent Activity -->
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Recent Activity</h5>
+                                    <div id="recentActivity" class="space-y-3">
+                                        <!-- Activities will be populated here -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Top Categories -->
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Popular Categories</h5>
+                                    <div id="topCategories" class="space-y-3">
+                                        <!-- Categories will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Users Tab -->
+                        <div id="usersContent" class="analytics-tab-content hidden">
+                            <div class="bg-gray-50 rounded-lg p-6">
+                                <h5 class="text-lg font-semibold mb-4">User Statistics</h5>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="bg-gray-200">
+                                                <th class="p-3 text-left">Username</th>
+                                                <th class="p-3 text-left">Name</th>
+                                                <th class="p-3 text-left">Email</th>
+                                                <th class="p-3 text-left">Orders</th>
+                                                <th class="p-3 text-left">Total Spent</th>
+                                                <th class="p-3 text-left">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="usersTable">
+                                            <!-- Users data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Orders Tab -->
+                        <div id="ordersContent" class="analytics-tab-content hidden">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Order Status Distribution</h5>
+                                    <div id="orderStatusChart" class="space-y-2">
+                                        <!-- Order status chart will be here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Recent Orders</h5>
+                                    <div id="recentOrders" class="space-y-3 max-h-60 overflow-y-auto">
+                                        <!-- Recent orders will be here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Products Tab -->
+                        <div id="productsContent" class="analytics-tab-content hidden">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Top Selling Products</h5>
+                                    <div id="topProducts" class="space-y-3">
+                                        <!-- Top products will be here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Category Performance</h5>
+                                    <div id="categoryPerformance" class="space-y-3">
+                                        <!-- Category performance will be here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Real-time Tab -->
+                        <div id="realtimeContent" class="analytics-tab-content hidden">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">Live Activity Feed</h5>
+                                    <div id="liveActivityFeed" class="space-y-2 max-h-60 overflow-y-auto">
+                                        <!-- Live activity will be here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h5 class="text-lg font-semibold mb-4">System Status</h5>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span>Server Status</span>
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">🟢 Online</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span>Database</span>
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">🟢 Connected</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span>Last Update</span>
+                                            <span id="lastUpdate" class="text-gray-600 text-sm">Just now</span>
+                                        </div>
+                                        <div class="mt-4">
+                                            <button onclick="refreshAnalytics()" class="bg-turquoise-600 hover:bg-turquoise-700 text-white px-4 py-2 rounded-lg w-full">
+                                                🔄 Refresh Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data with realistic Indian e-commerce products and prices
+        const productData = {
+            electronics: [
+                // Mobile Phones
+                {name: "Samsung Galaxy S24", price: 79999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "iPhone 15", price: 89999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "OnePlus 12", price: 64999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Xiaomi 14", price: 54999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Google Pixel 8", price: 75999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Vivo V30 Pro", price: 41999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Oppo Reno 11", price: 32999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Realme GT 6", price: 28999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Nothing Phone 2", price: 44999, category: "electronics", subcategory: "Mobile Phones"},
+                {name: "Motorola Edge 50", price: 31999, category: "electronics", subcategory: "Mobile Phones"},
+                
+                // Headphones
+                {name: "Sony WH-1000XM5", price: 29990, category: "electronics", subcategory: "Headphones"},
+                {name: "Bose QuietComfort 45", price: 32900, category: "electronics", subcategory: "Headphones"},
+                {name: "Apple AirPods Pro", price: 24900, category: "electronics", subcategory: "Headphones"},
+                {name: "JBL Live 660NC", price: 9999, category: "electronics", subcategory: "Headphones"},
+                {name: "Sennheiser HD 450BT", price: 12990, category: "electronics", subcategory: "Headphones"},
+                {name: "Audio-Technica ATH-M50xBT", price: 15990, category: "electronics", subcategory: "Headphones"},
+                {name: "Skullcandy Crusher Evo", price: 11999, category: "electronics", subcategory: "Headphones"},
+                {name: "Boat Rockerz 550", price: 2499, category: "electronics", subcategory: "Headphones"},
+                {name: "Noise ColorFit Pro 4", price: 4999, category: "electronics", subcategory: "Headphones"},
+                {name: "Realme Buds Air 3", price: 3999, category: "electronics", subcategory: "Headphones"},
+                
+                // Smartwatches
+                {name: "Apple Watch Series 9", price: 41900, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Samsung Galaxy Watch 6", price: 31999, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Fitbit Versa 4", price: 22999, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Garmin Venu 3", price: 45990, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Amazfit GTR 4", price: 12999, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Noise ColorFit Pro 4 Alpha", price: 4999, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Fire-Boltt Phoenix Pro", price: 2999, category: "electronics", subcategory: "Smartwatches"},
+                {name: "boAt Wave Call 2", price: 2499, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Fastrack Reflex 3.0", price: 3495, category: "electronics", subcategory: "Smartwatches"},
+                {name: "Titan Smart Pro", price: 7995, category: "electronics", subcategory: "Smartwatches"}
+            ],
+            
+            clothing: [
+                // T-shirts
+                {name: "Nike Dri-FIT T-Shirt", price: 1495, category: "clothing", subcategory: "T-shirts"},
+                {name: "Adidas Originals Tee", price: 1299, category: "clothing", subcategory: "T-shirts"},
+                {name: "Puma Essential T-Shirt", price: 999, category: "clothing", subcategory: "T-shirts"},
+                {name: "H&M Cotton T-Shirt", price: 699, category: "clothing", subcategory: "T-shirts"},
+                {name: "Zara Basic Tee", price: 1290, category: "clothing", subcategory: "T-shirts"},
+                {name: "Uniqlo Crew Neck T-Shirt", price: 990, category: "clothing", subcategory: "T-shirts"},
+                {name: "Allen Solly Polo T-Shirt", price: 1199, category: "clothing", subcategory: "T-shirts"},
+                {name: "Van Heusen V-Neck Tee", price: 899, category: "clothing", subcategory: "T-shirts"},
+                {name: "Peter England Casual Tee", price: 649, category: "clothing", subcategory: "T-shirts"},
+                {name: "Roadster Graphic T-Shirt", price: 599, category: "clothing", subcategory: "T-shirts"},
+                
+                // Jackets
+                {name: "North Face Puffer Jacket", price: 12999, category: "clothing", subcategory: "Jackets"},
+                {name: "Adidas Track Jacket", price: 3999, category: "clothing", subcategory: "Jackets"},
+                {name: "Levi's Denim Jacket", price: 4999, category: "clothing", subcategory: "Jackets"},
+                {name: "Zara Bomber Jacket", price: 3990, category: "clothing", subcategory: "Jackets"},
+                {name: "H&M Hooded Jacket", price: 2999, category: "clothing", subcategory: "Jackets"},
+                {name: "Puma Windbreaker", price: 2499, category: "clothing", subcategory: "Jackets"},
+                {name: "Nike Tech Fleece Hoodie", price: 5495, category: "clothing", subcategory: "Jackets"},
+                {name: "Roadster Leather Jacket", price: 3499, category: "clothing", subcategory: "Jackets"},
+                {name: "Wildcraft Rain Jacket", price: 1999, category: "clothing", subcategory: "Jackets"},
+                {name: "Monte Carlo Sweater", price: 1799, category: "clothing", subcategory: "Jackets"},
+                
+                // Shoes
+                {name: "Nike Air Max 270", price: 12795, category: "clothing", subcategory: "Shoes"},
+                {name: "Adidas Ultraboost 22", price: 16999, category: "clothing", subcategory: "Shoes"},
+                {name: "Puma RS-X", price: 8999, category: "clothing", subcategory: "Shoes"},
+                {name: "Converse Chuck Taylor", price: 4999, category: "clothing", subcategory: "Shoes"},
+                {name: "Vans Old Skool", price: 4299, category: "clothing", subcategory: "Shoes"},
+                {name: "Reebok Classic Leather", price: 5999, category: "clothing", subcategory: "Shoes"},
+                {name: "New Balance 574", price: 7999, category: "clothing", subcategory: "Shoes"},
+                {name: "Bata Casual Shoes", price: 1999, category: "clothing", subcategory: "Shoes"},
+                {name: "Red Tape Sneakers", price: 2499, category: "clothing", subcategory: "Shoes"},
+                {name: "Woodland Outdoor Shoes", price: 3499, category: "clothing", subcategory: "Shoes"}
+            ],
+            
+            books: [
+                // Novels
+                {name: "The Alchemist by Paulo Coelho", price: 299, category: "books", subcategory: "Novels"},
+                {name: "To Kill a Mockingbird", price: 399, category: "books", subcategory: "Novels"},
+                {name: "1984 by George Orwell", price: 349, category: "books", subcategory: "Novels"},
+                {name: "Pride and Prejudice", price: 279, category: "books", subcategory: "Novels"},
+                {name: "The Great Gatsby", price: 329, category: "books", subcategory: "Novels"},
+                {name: "Harry Potter Series Set", price: 2499, category: "books", subcategory: "Novels"},
+                {name: "The Kite Runner", price: 399, category: "books", subcategory: "Novels"},
+                {name: "Life of Pi", price: 349, category: "books", subcategory: "Novels"},
+                {name: "The God of Small Things", price: 399, category: "books", subcategory: "Novels"},
+                {name: "Midnight's Children", price: 449, category: "books", subcategory: "Novels"},
+                
+                // Notebooks
+                {name: "Classmate Spiral Notebook", price: 89, category: "books", subcategory: "Notebooks"},
+                {name: "Oxford Campus Notebook", price: 125, category: "books", subcategory: "Notebooks"},
+                {name: "Navneet Youva Notebook", price: 95, category: "books", subcategory: "Notebooks"},
+                {name: "Camlin Kokuyo Notebook", price: 149, category: "books", subcategory: "Notebooks"},
+                {name: "ITC Classmate Premium", price: 199, category: "books", subcategory: "Notebooks"},
+                {name: "Sundaram Winner Notebook", price: 79, category: "books", subcategory: "Notebooks"},
+                {name: "Doms Smart Notes", price: 69, category: "books", subcategory: "Notebooks"},
+                {name: "Hamdard Notebook", price: 85, category: "books", subcategory: "Notebooks"},
+                {name: "Long Book Notebook", price: 99, category: "books", subcategory: "Notebooks"},
+                {name: "Target Publications Notebook", price: 119, category: "books", subcategory: "Notebooks"},
+                
+                // Pens
+                {name: "Parker Jotter Ballpoint Pen", price: 899, category: "books", subcategory: "Pens"},
+                {name: "Pilot G2 Gel Pen Set", price: 299, category: "books", subcategory: "Pens"},
+                {name: "Reynolds 045 Fine Carbure", price: 10, category: "books", subcategory: "Pens"},
+                {name: "Cello Butterflow Pen", price: 15, category: "books", subcategory: "Pens"},
+                {name: "Flair Inky Pen", price: 12, category: "books", subcategory: "Pens"},
+                {name: "Montex Dura Pen", price: 8, category: "books", subcategory: "Pens"},
+                {name: "Linc Pentonic Gel Pen", price: 25, category: "books", subcategory: "Pens"},
+                {name: "Hauser XO Ballpoint", price: 35, category: "books", subcategory: "Pens"},
+                {name: "Add Gel Classik Pen", price: 20, category: "books", subcategory: "Pens"},
+                {name: "Uniball Signo Gel Pen", price: 45, category: "books", subcategory: "Pens"}
+            ],
+            
+            health: [
+                // Supplements
+                {name: "Optimum Nutrition Gold Standard Whey", price: 4999, category: "health", subcategory: "Supplements"},
+                {name: "MuscleBlaze Whey Protein", price: 2999, category: "health", subcategory: "Supplements"},
+                {name: "Dymatize ISO100", price: 6999, category: "health", subcategory: "Supplements"},
+                {name: "BSN Syntha-6", price: 4499, category: "health", subcategory: "Supplements"},
+                {name: "MuscleTech Nitro-Tech", price: 3799, category: "health", subcategory: "Supplements"},
+                {name: "Centrum Multivitamin", price: 899, category: "health", subcategory: "Supplements"},
+                {name: "Nature Made Vitamin D3", price: 649, category: "health", subcategory: "Supplements"},
+                {name: "Himalaya Ashwagandha", price: 299, category: "health", subcategory: "Supplements"},
+                {name: "Patanjali Giloy Ghanvati", price: 149, category: "health", subcategory: "Supplements"},
+                {name: "Dabur Chyawanprash", price: 399, category: "health", subcategory: "Supplements"},
+                
+                // Fitness Bands
+                {name: "Fitbit Charge 5", price: 19999, category: "health", subcategory: "Fitness Bands"},
+                {name: "Mi Band 7", price: 2799, category: "health", subcategory: "Fitness Bands"},
+                {name: "Amazfit Band 7", price: 3999, category: "health", subcategory: "Fitness Bands"},
+                {name: "Honor Band 6", price: 2999, category: "health", subcategory: "Fitness Bands"},
+                {name: "Realme Band 2", price: 2499, category: "health", subcategory: "Fitness Bands"},
+                {name: "Noise ColorFit Pro 2", price: 2999, category: "health", subcategory: "Fitness Bands"},
+                {name: "boAt Storm Call", price: 1999, category: "health", subcategory: "Fitness Bands"},
+                {name: "Fire-Boltt Ninja Call Pro", price: 1799, category: "health", subcategory: "Fitness Bands"},
+                {name: "Fastrack Reflex 2.0", price: 1995, category: "health", subcategory: "Fitness Bands"},
+                {name: "GOQii Vital 4.0", price: 4999, category: "health", subcategory: "Fitness Bands"},
+                
+                // Protein Powders
+                {name: "Whey Protein Isolate 2kg", price: 5999, category: "health", subcategory: "Protein Powders"},
+                {name: "Casein Protein 1kg", price: 3499, category: "health", subcategory: "Protein Powders"},
+                {name: "Plant Protein Powder", price: 2999, category: "health", subcategory: "Protein Powders"},
+                {name: "Mass Gainer 3kg", price: 2799, category: "health", subcategory: "Protein Powders"},
+                {name: "BCAA Powder 300g", price: 1999, category: "health", subcategory: "Protein Powders"},
+                {name: "Creatine Monohydrate", price: 1299, category: "health", subcategory: "Protein Powders"},
+                {name: "Pre-Workout Powder", price: 1799, category: "health", subcategory: "Protein Powders"},
+                {name: "Glutamine Powder", price: 1499, category: "health", subcategory: "Protein Powders"},
+                {name: "Collagen Peptides", price: 2499, category: "health", subcategory: "Protein Powders"},
+                {name: "Pea Protein Isolate", price: 2199, category: "health", subcategory: "Protein Powders"}
+            ],
+            
+            home: [
+                // Cookware
+                {name: "Prestige Pressure Cooker 5L", price: 2499, category: "home", subcategory: "Cookware"},
+                {name: "Hawkins Contura Hard Anodised", price: 3299, category: "home", subcategory: "Cookware"},
+                {name: "Pigeon Non-Stick Cookware Set", price: 1999, category: "home", subcategory: "Cookware"},
+                {name: "Cello Non-Stick Tawa", price: 699, category: "home", subcategory: "Cookware"},
+                {name: "Vinod Stainless Steel Kadai", price: 1299, category: "home", subcategory: "Cookware"},
+                {name: "Wonderchef Granite Cookware", price: 2799, category: "home", subcategory: "Cookware"},
+                {name: "Meyer Non-Stick Frying Pan", price: 1899, category: "home", subcategory: "Cookware"},
+                {name: "Butterfly Stainless Steel Pot", price: 899, category: "home", subcategory: "Cookware"},
+                {name: "Bajaj Majesty Induction Base", price: 1599, category: "home", subcategory: "Cookware"},
+                {name: "Nirlon Non-Stick Cookware", price: 1199, category: "home", subcategory: "Cookware"},
+                
+                // Storage Boxes
+                {name: "Milton Plastic Storage Container", price: 599, category: "home", subcategory: "Storage Boxes"},
+                {name: "Tupperware Modular Mates", price: 1299, category: "home", subcategory: "Storage Boxes"},
+                {name: "Signoraware Storage Set", price: 899, category: "home", subcategory: "Storage Boxes"},
+                {name: "Princeware Plastic Container", price: 449, category: "home", subcategory: "Storage Boxes"},
+                {name: "Cello Max Fresh Storage", price: 699, category: "home", subcategory: "Storage Boxes"},
+                {name: "Borosil Glass Storage Bowl", price: 799, category: "home", subcategory: "Storage Boxes"},
+                {name: "Lock&Lock Storage Box", price: 999, category: "home", subcategory: "Storage Boxes"},
+                {name: "Nayasa Plastic Storage", price: 349, category: "home", subcategory: "Storage Boxes"},
+                {name: "Varmora Storage Container", price: 299, category: "home", subcategory: "Storage Boxes"},
+                {name: "Polyset Storage Box Set", price: 649, category: "home", subcategory: "Storage Boxes"},
+                
+                // Small Appliances
+                {name: "Philips Air Fryer", price: 8999, category: "home", subcategory: "Small Appliances"},
+                {name: "Bajaj Mixer Grinder", price: 3499, category: "home", subcategory: "Small Appliances"},
+                {name: "Preethi Blue Leaf Platinum", price: 5999, category: "home", subcategory: "Small Appliances"},
+                {name: "Morphy Richards OTG", price: 4999, category: "home", subcategory: "Small Appliances"},
+                {name: "Prestige Electric Kettle", price: 1299, category: "home", subcategory: "Small Appliances"},
+                {name: "Butterfly Table Top Grinder", price: 2799, category: "home", subcategory: "Small Appliances"},
+                {name: "Havells Toaster", price: 1899, category: "home", subcategory: "Small Appliances"},
+                {name: "Crompton Hand Blender", price: 1599, category: "home", subcategory: "Small Appliances"},
+                {name: "Pigeon Electric Rice Cooker", price: 2199, category: "home", subcategory: "Small Appliances"},
+                {name: "Wonderchef Nutri-Blend", price: 2999, category: "home", subcategory: "Small Appliances"}
+            ],
+            
+            beauty: [
+                // Skincare
+                {name: "Lakme Absolute Perfect Radiance", price: 1299, category: "beauty", subcategory: "Skincare"},
+                {name: "Olay Regenerist Micro-Sculpting", price: 1899, category: "beauty", subcategory: "Skincare"},
+                {name: "Neutrogena Ultra Gentle Cleanser", price: 599, category: "beauty", subcategory: "Skincare"},
+                {name: "Himalaya Neem Face Wash", price: 149, category: "beauty", subcategory: "Skincare"},
+                {name: "Plum Green Tea Face Wash", price: 299, category: "beauty", subcategory: "Skincare"},
+                {name: "The Face Shop Rice Water Cleanser", price: 899, category: "beauty", subcategory: "Skincare"},
+                {name: "Cetaphil Gentle Skin Cleanser", price: 749, category: "beauty", subcategory: "Skincare"},
+                {name: "Garnier Micellar Water", price: 399, category: "beauty", subcategory: "Skincare"},
+                {name: "L'Oreal Paris Revitalift", price: 1599, category: "beauty", subcategory: "Skincare"},
+                {name: "Nivea Soft Light Moisturizer", price: 199, category: "beauty", subcategory: "Skincare"},
+                
+                // Hair Oil
+                {name: "Parachute Coconut Hair Oil", price: 199, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Dabur Amla Hair Oil", price: 149, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Bajaj Almond Drops", price: 89, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Keo Karpin Hair Oil", price: 129, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Himalaya Anti-Hair Fall Oil", price: 179, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Indulekha Bhringa Hair Oil", price: 399, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Patanjali Kesh Kanti Oil", price: 99, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Marico Hair & Care Oil", price: 119, category: "beauty", subcategory: "Hair Oil"},
+                {name: "Livon Hair Gain Tonic", price: 249, category: "beauty", subcategory: "Hair Oil"},
+                {name: "WOW Onion Black Seed Oil", price: 599, category: "beauty", subcategory: "Hair Oil"},
+                
+                // Grooming Kits
+                {name: "Philips Multi Grooming Kit", price: 2999, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Braun All-in-One Trimmer", price: 3499, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Mi Beard Trimmer", price: 1299, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Havells BT6203 Trimmer", price: 1899, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Syska HT3052K Trimmer", price: 999, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Nova Professional Trimmer", price: 1599, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Kemei Professional Kit", price: 2199, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Wahl Color Pro Clipper", price: 2799, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Panasonic ER-GB86 Trimmer", price: 4999, category: "beauty", subcategory: "Grooming Kits"},
+                {name: "Remington HC5880 Clipper", price: 3299, category: "beauty", subcategory: "Grooming Kits"}
+            ],
+            
+            toys: [
+                // Board Games
+                {name: "Monopoly Classic Board Game", price: 1299, category: "toys", subcategory: "Board Games"},
+                {name: "Scrabble Word Game", price: 999, category: "toys", subcategory: "Board Games"},
+                {name: "UNO Card Game", price: 199, category: "toys", subcategory: "Board Games"},
+                {name: "Chess Board Premium", price: 899, category: "toys", subcategory: "Board Games"},
+                {name: "Ludo King Board Game", price: 399, category: "toys", subcategory: "Board Games"},
+                {name: "Snakes and Ladders", price: 299, category: "toys", subcategory: "Board Games"},
+                {name: "Carrom Board Large", price: 2499, category: "toys", subcategory: "Board Games"},
+                {name: "Jenga Classic Game", price: 799, category: "toys", subcategory: "Board Games"},
+                {name: "Pictionary Board Game", price: 1199, category: "toys", subcategory: "Board Games"},
+                {name: "Catan Board Game", price: 3999, category: "toys", subcategory: "Board Games"},
+                
+                // Puzzles
+                {name: "Ravensburger 1000 Piece Puzzle", price: 1299, category: "toys", subcategory: "Puzzles"},
+                {name: "Funskool 500 Piece Puzzle", price: 599, category: "toys", subcategory: "Puzzles"},
+                {name: "Frank 300 Piece Puzzle", price: 399, category: "toys", subcategory: "Puzzles"},
+                {name: "Gibsons Jigsaw Puzzle", price: 899, category: "toys", subcategory: "Puzzles"},
+                {name: "Clementoni 2000 Piece", price: 1999, category: "toys", subcategory: "Puzzles"},
+                {name: "Educa 1500 Piece Puzzle", price: 1599, category: "toys", subcategory: "Puzzles"},
+                {name: "Buffalo Games Puzzle", price: 1199, category: "toys", subcategory: "Puzzles"},
+                {name: "White Mountain Puzzle", price: 999, category: "toys", subcategory: "Puzzles"},
+                {name: "Springbok Jigsaw Puzzle", price: 799, category: "toys", subcategory: "Puzzles"},
+                {name: "Cobble Hill Puzzle", price: 1099, category: "toys", subcategory: "Puzzles"},
+                
+                // Educational Toys
+                {name: "LEGO Classic Creative Bricks", price: 2999, category: "toys", subcategory: "Educational Toys"},
+                {name: "Melissa & Doug Wooden Blocks", price: 1999, category: "toys", subcategory: "Educational Toys"},
+                {name: "Fisher-Price Learning Laptop", price: 3499, category: "toys", subcategory: "Educational Toys"},
+                {name: "VTech Touch and Learn", price: 2799, category: "toys", subcategory: "Educational Toys"},
+                {name: "Funskool Play & Learn", price: 1299, category: "toys", subcategory: "Educational Toys"},
+                {name: "Skillmatics Educational Games", price: 899, category: "toys", subcategory: "Educational Toys"},
+                {name: "Learning Resources Math Kit", price: 1599, category: "toys", subcategory: "Educational Toys"},
+                {name: "Osmo Genius Starter Kit", price: 7999, category: "toys", subcategory: "Educational Toys"},
+                {name: "Think Fun Logic Games", price: 1199, category: "toys", subcategory: "Educational Toys"},
+                {name: "Educational Insights Science Kit", price: 2499, category: "toys", subcategory: "Educational Toys"}
+            ]
+        };
+
+        // Generate additional products to reach 500-700 per category
+        function generateAdditionalProducts() {
+            const categories = Object.keys(productData);
+            
+            categories.forEach(category => {
+                const currentProducts = productData[category];
+                const targetCount = 550; // Target around 550 products per category
+                
+                while (currentProducts.length < targetCount) {
+                    // Create variations of existing products
+                    const baseProduct = currentProducts[Math.floor(Math.random() * Math.min(currentProducts.length, 30))];
+                    const variations = [
+                        'Pro', 'Plus', 'Max', 'Ultra', 'Premium', 'Deluxe', 'Advanced', 'Special Edition',
+                        'V2', 'V3', '2024 Model', 'New', 'Upgraded', 'Enhanced', 'Super', 'Mega'
+                    ];
+                    const colors = ['Black', 'White', 'Blue', 'Red', 'Green', 'Silver', 'Gold', 'Rose Gold'];
+                    const sizes = ['Small', 'Medium', 'Large', 'XL', 'XXL', 'Mini', 'Compact'];
+                    
+                    const variation = variations[Math.floor(Math.random() * variations.length)];
+                    const modifier = Math.random() > 0.5 ? 
+                        colors[Math.floor(Math.random() * colors.length)] : 
+                        sizes[Math.floor(Math.random() * sizes.length)];
+                    
+                    const newProduct = {
+                        name: `${baseProduct.name} ${variation} ${modifier}`,
+                        price: Math.floor(baseProduct.price * (0.8 + Math.random() * 0.4)), // ±20% price variation
+                        category: baseProduct.category,
+                        subcategory: baseProduct.subcategory
+                    };
+                    
+                    currentProducts.push(newProduct);
+                }
+            });
+        }
+
+        // Generate additional products
+        generateAdditionalProducts();
+
+        // Flatten all products
+        let allProducts = [];
+        Object.values(productData).forEach(categoryProducts => {
+            allProducts = allProducts.concat(categoryProducts);
+        });
+
+        // User management
+        let currentUser = null;
+        let guestCounter = 1;
+        let users = [
+            { username: 'admin', password: 'admin123', name: 'Administrator', email: 'admin@rajukart.com' },
+            { username: 'admin1209', password: 'Raju@1209', name: 'Super Admin', email: 'admin1209@rajukart.com', isAdmin: true },
+            { username: 'user1', password: 'password123', name: 'John Doe', email: 'john@example.com' },
+            { username: 'user2', password: 'password123', name: 'Jane Smith', email: 'jane@example.com' },
+            { username: 'user3', password: 'password123', name: 'Mike Johnson', email: 'mike@example.com' },
+            { username: 'user4', password: 'password123', name: 'Sarah Wilson', email: 'sarah@example.com' }
+        ];
+
+        // App state
+        let currentCategory = 'all';
+        let currentProducts = allProducts;
+        let displayedProducts = [];
+        let productsPerPage = 20;
+        let currentPage = 0;
+        let cart = [];
+        let wishlist = [];
+        let orders = [];
+        let orderCounter = 1;
+
+        // Analytics data
+        let analyticsData = {
+            pageViews: 0,
+            activeSessions: 1,
+            totalRevenue: 0,
+            userActivities: [],
+            categoryViews: {
+                'electronics': 0,
+                'clothing': 0,
+                'books': 0,
+                'health': 0,
+                'home': 0,
+                'beauty': 0,
+                'toys': 0
+            },
+            productViews: {},
+            dailyOrders: 0,
+            liveActivities: []
+        };
+
+        // Track page views
+        function trackPageView() {
+            analyticsData.pageViews++;
+            addActivity('Page view', 'User viewed a page');
+        }
+
+        // Add activity to tracking
+        function addActivity(type, description) {
+            const activity = {
+                type: type,
+                description: description,
+                timestamp: new Date(),
+                user: currentUser ? currentUser.name : 'Guest'
+            };
+            analyticsData.userActivities.unshift(activity);
+            analyticsData.liveActivities.unshift(activity);
+            
+            // Keep only last 50 activities
+            if (analyticsData.userActivities.length > 50) {
+                analyticsData.userActivities.pop();
+            }
+            if (analyticsData.liveActivities.length > 20) {
+                analyticsData.liveActivities.pop();
+            }
+        }
+
+        // Authentication functions
+        function continueAsGuest() {
+            const guestId = `Guest${String(guestCounter).padStart(4, '0')}`;
+            guestCounter++;
+            currentUser = { 
+                username: guestId, 
+                isGuest: true, 
+                name: 'Guest User' 
+            };
+            
+            document.getElementById('authModal').classList.add('hidden');
+            updateUserInfo();
+            showCategory('all');
+        }
+
+        function showLoginForm() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('loginModal').classList.remove('hidden');
+        }
+
+        function showSignupForm() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('signupModal').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            if (!currentUser) {
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+        }
+
+        function closeSignupModal() {
+            document.getElementById('signupModal').classList.add('hidden');
+            if (!currentUser) {
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = users.find(u => 
+                (u.username === username || u.email === username) && u.password === password
+            );
+            
+            if (user) {
+                currentUser = { ...user, isGuest: false };
+                document.getElementById('loginModal').classList.add('hidden');
+                updateUserInfo();
+                showNotification('Login successful!', 'success');
+                
+                // Clear form
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                showNotification('Invalid username/email or password!', 'error');
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            // Check if user already exists
+            if (users.find(u => u.username === username || u.email === email)) {
+                showNotification('Username or email already exists!', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = { username, password, name, email };
+            users.push(newUser);
+            currentUser = { ...newUser, isGuest: false };
+            
+            document.getElementById('signupModal').classList.add('hidden');
+            updateUserInfo();
+            showNotification('Account created successfully!', 'success');
+            
+            // Clear form
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupPassword').value = '';
+        }
+
+        function logout() {
+            currentUser = null;
+            cart = [];
+            wishlist = [];
+            updateCartCount();
+            updateWishlistCount();
+            updateUserInfo();
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function updateUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const analyticsBtn = document.getElementById('analyticsBtn');
+            
+            if (currentUser) {
+                if (currentUser.isGuest) {
+                    userInfo.textContent = `Welcome, ${currentUser.username}`;
+                    userInfo.className = 'text-sm text-yellow-200';
+                } else {
+                    userInfo.textContent = `Welcome, ${currentUser.name}`;
+                    userInfo.className = 'text-sm text-turquoise-200';
+                }
+                logoutBtn.classList.remove('hidden');
+                
+                // Show analytics button only for admin users
+                if (currentUser.isAdmin) {
+                    analyticsBtn.classList.remove('hidden');
+                } else {
+                    analyticsBtn.classList.add('hidden');
+                }
+            } else {
+                userInfo.textContent = '';
+                logoutBtn.classList.add('hidden');
+                analyticsBtn.classList.add('hidden');
+            }
+        }
+
+        // Auth required functions
+        function showAuthRequired() {
+            document.getElementById('authRequiredModal').classList.remove('hidden');
+        }
+
+        function closeAuthRequired() {
+            document.getElementById('authRequiredModal').classList.add('hidden');
+        }
+
+        function showLoginFromRequired() {
+            closeAuthRequired();
+            showLoginForm();
+        }
+
+        function showSignupFromRequired() {
+            closeAuthRequired();
+            showSignupForm();
+        }
+
+        function requireAuth(action) {
+            if (!currentUser || currentUser.isGuest) {
+                showAuthRequired();
+                return false;
+            }
+            return true;
+        }
+
+        // Product display functions
+        function showCategory(category) {
+            currentCategory = category;
+            currentPage = 0;
+            displayedProducts = [];
+            
+            // Track category view for analytics
+            if (category !== 'all') {
+                analyticsData.categoryViews[category]++;
+                addActivity('Category View', `Viewed ${category} category`);
+            }
+            trackPageView();
+            
+            // Clear the products grid first
+            document.getElementById('productsGrid').innerHTML = '';
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="showCategory('${category}')"]`).classList.add('active');
+            
+            // Get products for category
+            if (category === 'all') {
+                // For 'all' category, show 4 products from each category
+                currentProducts = [];
+                Object.keys(productData).forEach(cat => {
+                    const categoryProducts = productData[cat];
+                    // Take first 4 products from each category
+                    currentProducts = currentProducts.concat(categoryProducts.slice(0, 4));
+                });
+                document.getElementById('categoryTitle').textContent = 'All Products';
+                document.getElementById('categoryDescription').textContent = 'Discover amazing products across all categories';
+            } else {
+                currentProducts = [...(productData[category] || [])]; // Create a copy
+                const categoryNames = {
+                    electronics: 'Electronics',
+                    clothing: 'Clothing & Apparel',
+                    books: 'Books & Stationery',
+                    health: 'Health & Wellness',
+                    home: 'Home & Kitchen',
+                    beauty: 'Beauty & Personal Care',
+                    toys: 'Toys & Games'
+                };
+                document.getElementById('categoryTitle').textContent = categoryNames[category];
+                document.getElementById('categoryDescription').textContent = `Explore our ${categoryNames[category].toLowerCase()} collection`;
+            }
+            
+            // Apply current sort if any
+            const sortBy = document.getElementById('sortSelect').value;
+            if (sortBy !== 'name') {
+                sortProducts();
+                return; // sortProducts will call loadMoreProducts
+            }
+            
+            updateProductCount();
+            loadMoreProducts();
+        }
+
+        function updateProductCount() {
+            document.getElementById('productCount').textContent = `${currentProducts.length} products available`;
+        }
+
+        function sortProducts() {
+            const sortBy = document.getElementById('sortSelect').value;
+            
+            switch(sortBy) {
+                case 'name':
+                    currentProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'price-low':
+                    currentProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    currentProducts.sort((a, b) => b.price - a.price);
+                    break;
+            }
+            
+            // Reset display
+            currentPage = 0;
+            displayedProducts = [];
+            document.getElementById('productsGrid').innerHTML = '';
+            loadMoreProducts();
+        }
+
+        function loadMoreProducts() {
+            const startIndex = currentPage * productsPerPage;
+            const endIndex = Math.min(startIndex + productsPerPage, currentProducts.length);
+            const newProducts = currentProducts.slice(startIndex, endIndex);
+            
+            displayedProducts = displayedProducts.concat(newProducts);
+            
+            const grid = document.getElementById('productsGrid');
+            
+            newProducts.forEach(product => {
+                const productIndex = allProducts.indexOf(product);
+                const isInWishlist = wishlist.some(item => item.name === product.name);
+                
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4';
+                productCard.innerHTML = `
+                    <div class="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                        <span class="text-4xl">${getProductEmoji(product.subcategory)}</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">${product.name}</h3>
+                    <p class="text-sm text-gray-600 mb-2">${product.subcategory}</p>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xl font-bold text-turquoise-600">₹${product.price.toLocaleString()}</span>
+                        <button onclick="toggleWishlistItem(${productIndex})" 
+                                class="text-2xl ${isInWishlist ? 'text-red-500' : 'text-gray-300'} hover:text-red-500 transition-colors">
+                            ${isInWishlist ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <button onclick="addToCart(${productIndex})" 
+                            class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        Add to Cart
+                    </button>
+                `;
+                grid.appendChild(productCard);
+            });
+            
+            currentPage++;
+            
+            // Hide load more button if no more products
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (endIndex >= currentProducts.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+        }
+
+        function getProductEmoji(subcategory) {
+            const emojiMap = {
+                'Mobile Phones': '📱',
+                'Headphones': '🎧',
+                'Smartwatches': '⌚',
+                'T-shirts': '👕',
+                'Jackets': '🧥',
+                'Shoes': '👟',
+                'Novels': '📚',
+                'Notebooks': '📓',
+                'Pens': '✒️',
+                'Supplements': '💊',
+                'Fitness Bands': '⌚',
+                'Protein Powders': '🥤',
+                'Cookware': '🍳',
+                'Storage Boxes': '📦',
+                'Small Appliances': '🔌',
+                'Skincare': '🧴',
+                'Hair Oil': '💆',
+                'Grooming Kits': '✂️',
+                'Board Games': '🎲',
+                'Puzzles': '🧩',
+                'Educational Toys': '🧸'
+            };
+            return emojiMap[subcategory] || '🛍️';
+        }
+
+        // Wishlist functions
+        function toggleWishlistItem(productIndex) {
+            if (!requireAuth()) return;
+            
+            const product = allProducts[productIndex];
+            const existingIndex = wishlist.findIndex(item => item.name === product.name);
+            
+            if (existingIndex > -1) {
+                wishlist.splice(existingIndex, 1);
+                showNotification('Removed from wishlist!', 'info');
+            } else {
+                wishlist.push(product);
+                showNotification('Added to wishlist!', 'success');
+            }
+            
+            updateWishlistCount();
+            // Refresh the current view to update heart icons
+            currentPage = 0;
+            displayedProducts = [];
+            document.getElementById('productsGrid').innerHTML = '';
+            loadMoreProducts();
+        }
+
+        function toggleWishlist() {
+            if (!requireAuth()) return;
+            
+            const modal = document.getElementById('wishlistModal');
+            const wishlistItems = document.getElementById('wishlistItems');
+            
+            if (wishlist.length === 0) {
+                wishlistItems.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">Your wishlist is empty</div>';
+            } else {
+                wishlistItems.innerHTML = wishlist.map(product => {
+                    const productIndex = allProducts.indexOf(product);
+                    return `
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                                <span class="text-3xl">${getProductEmoji(product.subcategory)}</span>
+                            </div>
+                            <h4 class="font-semibold text-sm mb-2">${product.name}</h4>
+                            <p class="text-turquoise-600 font-bold mb-3">₹${product.price.toLocaleString()}</p>
+                            <div class="space-y-2">
+                                <button onclick="addToCart(${productIndex})" 
+                                        class="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white px-3 py-2 rounded text-sm">
+                                    Add to Cart
+                                </button>
+                                <button onclick="toggleWishlistItem(${productIndex})" 
+                                        class="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeWishlist() {
+            document.getElementById('wishlistModal').classList.add('hidden');
+        }
+
+        function updateWishlistCount() {
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+        }
+
+        // Cart functions
+        function addToCart(productIndex) {
+            if (!requireAuth()) return;
+            
+            const product = allProducts[productIndex];
+            const existingItem = cart.find(item => item.product.name === product.name);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ product, quantity: 1 });
+            }
+            
+            // Track for analytics
+            addActivity('Add to Cart', `Added ${product.name} to cart`);
+            if (!analyticsData.productViews[product.name]) {
+                analyticsData.productViews[product.name] = 0;
+            }
+            analyticsData.productViews[product.name]++;
+            
+            updateCartCount();
+            showNotification('Added to cart!', 'success');
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function openCart() {
+            if (!requireAuth()) return;
+            
+            const modal = document.getElementById('cartModal');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-500 text-center py-4">Your cart is empty</p>';
+                cartTotal.textContent = '0';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between py-2 border-b">
+                        <div class="flex-1">
+                            <h4 class="font-semibold">${item.product.name}</h4>
+                            <p class="text-gray-600">₹${item.product.price.toLocaleString()}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity('${item.product.name}', -1)" class="bg-gray-200 px-2 py-1 rounded">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.product.name}', 1)" class="bg-gray-200 px-2 py-1 rounded">+</button>
+                        </div>
+                        <div class="ml-4">
+                            <span class="font-semibold">₹${(item.product.price * item.quantity).toLocaleString()}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                cartTotal.textContent = total.toLocaleString();
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.add('hidden');
+        }
+
+        function updateQuantity(productName, change) {
+            const item = cart.find(item => item.product.name === productName);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(cartItem => cartItem.product.name !== productName);
+                }
+                updateCartCount();
+                openCart(); // Refresh cart display
+            }
+        }
+
+        function checkout() {
+            if (!requireAuth()) return;
+            
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+            
+            // Close cart modal and show order placement page
+            closeCart();
+            showOrderPlacementPage();
+        }
+
+        function showOrderPlacementPage() {
+            const orderSummaryItems = document.getElementById('orderSummaryItems');
+            const orderTotal = document.getElementById('orderTotal');
+            
+            // Display cart items in order summary
+            orderSummaryItems.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center py-2 border-b">
+                    <div>
+                        <h4 class="font-semibold">${item.product.name}</h4>
+                        <p class="text-gray-600">Qty: ${item.quantity} × ₹${item.product.price.toLocaleString()}</p>
+                    </div>
+                    <span class="font-semibold">₹${(item.product.price * item.quantity).toLocaleString()}</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+            orderTotal.textContent = total.toLocaleString();
+            
+            // Pre-fill user information if available
+            if (currentUser && !currentUser.isGuest) {
+                document.getElementById('fullName').value = currentUser.name || '';
+            }
+            
+            document.getElementById('orderPlacementPage').classList.remove('hidden');
+        }
+
+        function closeOrderPlacement() {
+            document.getElementById('orderPlacementPage').classList.add('hidden');
+        }
+
+        function showPaymentForm(method) {
+            // Hide all payment forms
+            document.querySelectorAll('.payment-form').forEach(form => {
+                form.classList.add('hidden');
+            });
+            
+            // Show selected payment form
+            document.getElementById(method + 'Form').classList.remove('hidden');
+        }
+
+        function validatePaymentInfo(paymentMethod) {
+            let isValid = true;
+            let requiredFields = [];
+            
+            switch(paymentMethod) {
+                case 'cod':
+                    // No additional validation needed for COD
+                    return true;
+                    
+                case 'upi':
+                    requiredFields = ['upiId', 'upiPin'];
+                    break;
+                    
+                case 'card':
+                    requiredFields = ['cardNumber', 'cardholderName', 'expiryDate', 'cvv'];
+                    break;
+                    
+                case 'netbanking':
+                    requiredFields = ['bankSelect', 'customerId', 'netbankingPassword'];
+                    break;
+            }
+            
+            for (let field of requiredFields) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    element.classList.remove('border-red-500');
+                }
+            }
+            
+            return isValid;
+        }
+
+        function placeOrder() {
+            // Validate address form
+            const requiredFields = ['fullName', 'phoneNumber', 'addressLine1', 'city', 'state', 'pinCode'];
+            let isValid = true;
+            
+            for (let field of requiredFields) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    element.classList.remove('border-red-500');
+                }
+            }
+            
+            // Additional validation for phone number
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            if (phoneNumber && (!/^\d{10}$/.test(phoneNumber))) {
+                document.getElementById('phoneNumber').classList.add('border-red-500');
+                showNotification('Phone number must be exactly 10 digits!', 'error');
+                isValid = false;
+            }
+            
+            // Additional validation for PIN code
+            const pinCode = document.getElementById('pinCode').value.trim();
+            if (pinCode && (!/^\d{6}$/.test(pinCode))) {
+                document.getElementById('pinCode').classList.add('border-red-500');
+                showNotification('PIN code must be exactly 6 digits!', 'error');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                showNotification('Please fill all required fields correctly!', 'error');
+                return;
+            }
+            
+            // Get selected payment method
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            // Validate payment information
+            if (!validatePaymentInfo(paymentMethod)) {
+                showNotification('Please fill all required payment information!', 'error');
+                return;
+            }
+            
+            // Generate unique order ID
+            const orderId = `RK${String(orderCounter).padStart(6, '0')}`;
+            orderCounter++;
+            
+            // Create order object
+            const order = {
+                id: orderId,
+                userId: currentUser.username,
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+                address: {
+                    fullName: document.getElementById('fullName').value,
+                    phoneNumber: document.getElementById('phoneNumber').value,
+                    addressLine1: document.getElementById('addressLine1').value,
+                    addressLine2: document.getElementById('addressLine2').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    pinCode: document.getElementById('pinCode').value
+                },
+                paymentMethod: paymentMethod,
+                status: 'Order Placed',
+                orderDate: new Date().toLocaleDateString('en-IN'),
+                estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN'),
+                canCancel: true
+            };
+            
+            // Add to orders array
+            orders.push(order);
+            
+            // Track order for analytics
+            trackOrderPlacement(order);
+            
+            // Clear cart
+            cart = [];
+            updateCartCount();
+            
+            // Close order placement page
+            closeOrderPlacement();
+            
+            // Show success notification
+            showNotification(`Order placed successfully! Order ID: ${orderId}`, 'success');
+            
+            // Clear forms
+            document.getElementById('addressForm').reset();
+            clearPaymentForms();
+        }
+
+        function clearPaymentForms() {
+            // Clear UPI form
+            document.getElementById('upiId').value = '';
+            document.getElementById('upiPin').value = '';
+            
+            // Clear card form
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('cardholderName').value = '';
+            document.getElementById('expiryDate').value = '';
+            document.getElementById('cvv').value = '';
+            
+            // Clear net banking form
+            document.getElementById('bankSelect').value = '';
+            document.getElementById('customerId').value = '';
+            document.getElementById('netbankingPassword').value = '';
+        }
+
+        // Order tracking functions
+        function showOrderTracking() {
+            if (!requireAuth()) return;
+            
+            const userOrders = orders.filter(order => order.userId === currentUser.username);
+            const trackingContent = document.getElementById('orderTrackingContent');
+            
+            if (userOrders.length === 0) {
+                trackingContent.innerHTML = `
+                    <p class="text-gray-600 mb-4">You haven't placed any orders yet.</p>
+                    <button onclick="closeOrderTracking()" class="bg-turquoise-600 hover:bg-turquoise-700 text-white px-4 py-2 rounded-lg">
+                        Continue Shopping
+                    </button>
+                `;
+            } else {
+                trackingContent.innerHTML = `
+                    <div class="space-y-4 max-h-64 overflow-y-auto">
+                        ${userOrders.map(order => `
+                            <div class="border rounded-lg p-4 text-left">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <h4 class="font-semibold">Order #${order.id}</h4>
+                                        <p class="text-sm text-gray-600">Placed on ${order.orderDate}</p>
+                                        <p class="text-sm text-gray-600">Payment: ${getPaymentMethodName(order.paymentMethod)}</p>
+                                    </div>
+                                    <span class="text-turquoise-600 font-semibold">₹${order.total.toLocaleString()}</span>
+                                </div>
+                                <div class="mb-2 flex items-center justify-between">
+                                    <span class="inline-block ${order.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'} px-2 py-1 rounded text-sm">
+                                        ${order.status}
+                                    </span>
+                                    ${order.canCancel && order.status !== 'Cancelled' ? 
+                                        `<button onclick="showCancellationModal('${order.id}')" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                            Cancel Order
+                                        </button>` : ''
+                                    }
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    ${order.status !== 'Cancelled' ? `Expected delivery: ${order.estimatedDelivery}` : 'Order was cancelled'}
+                                </p>
+                                <p class="text-sm text-gray-600">
+                                    Items: ${order.items.length} product(s)
+                                </p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-4">
+                        <button onclick="closeOrderTracking()" class="bg-turquoise-600 hover:bg-turquoise-700 text-white px-4 py-2 rounded-lg">
+                            Close
+                        </button>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('orderTrackingModal').classList.remove('hidden');
+        }
+
+        function closeOrderTracking() {
+            document.getElementById('orderTrackingModal').classList.add('hidden');
+        }
+
+        function getPaymentMethodName(method) {
+            const methodNames = {
+                'cod': 'Cash on Delivery',
+                'upi': 'UPI Payment',
+                'card': 'Credit/Debit Card',
+                'netbanking': 'Net Banking'
+            };
+            return methodNames[method] || method;
+        }
+
+        // Order cancellation functions
+        let orderToCancel = null;
+
+        function showCancellationModal(orderId) {
+            orderToCancel = orderId;
+            document.getElementById('orderCancellationModal').classList.remove('hidden');
+            
+            // Reset form
+            document.querySelectorAll('input[name="cancellationReason"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('otherReasonDiv').classList.add('hidden');
+            document.getElementById('otherReason').value = '';
+        }
+
+        function closeCancellationModal() {
+            document.getElementById('orderCancellationModal').classList.add('hidden');
+            orderToCancel = null;
+        }
+
+        function confirmCancellation() {
+            const selectedReason = document.querySelector('input[name="cancellationReason"]:checked');
+            
+            if (!selectedReason) {
+                showNotification('Please select a reason for cancellation!', 'error');
+                return;
+            }
+            
+            let reason = selectedReason.value;
+            if (reason === 'other') {
+                const otherReasonText = document.getElementById('otherReason').value.trim();
+                if (!otherReasonText) {
+                    showNotification('Please specify the reason!', 'error');
+                    return;
+                }
+                reason = otherReasonText;
+            }
+            
+            // Find and update the order
+            const order = orders.find(o => o.id === orderToCancel);
+            if (order) {
+                order.status = 'Cancelled';
+                order.canCancel = false;
+                order.cancellationReason = reason;
+                
+                // Show refund notification for non-COD payments
+                if (order.paymentMethod !== 'cod') {
+                    showRefundNotification();
+                }
+                
+                showNotification('Order cancelled successfully!', 'success');
+                closeCancellationModal();
+                
+                // Refresh the order tracking display
+                showOrderTracking();
+            }
+        }
+
+        function showRefundNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-blue-600 text-white px-4 py-3 rounded-lg z-50 max-w-sm';
+            notification.innerHTML = `
+                <div class="flex items-start space-x-2">
+                    <span class="text-lg">💰</span>
+                    <div>
+                        <p class="font-semibold">Refund Initiated</p>
+                        <p class="text-sm">Amount will be returned in next 48 hours</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 5000);
+        }
+
+        // Analytics functions
+        function showAnalytics() {
+            if (!currentUser || !currentUser.isAdmin) {
+                showNotification('Access denied! Admin privileges required.', 'error');
+                return;
+            }
+            
+            document.getElementById('analyticsModal').classList.remove('hidden');
+            updateAnalyticsData();
+            showAnalyticsTab('overview');
+        }
+
+        function closeAnalytics() {
+            document.getElementById('analyticsModal').classList.add('hidden');
+        }
+
+        function showAnalyticsTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.analytics-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('[id$="Tab"]').forEach(tab => {
+                tab.className = 'px-4 py-2 font-semibold text-gray-500 hover:text-gray-700';
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+            
+            // Add active class to selected tab
+            document.getElementById(tabName + 'Tab').className = 'px-4 py-2 font-semibold text-turquoise-600 border-b-2 border-turquoise-600';
+            
+            // Update tab-specific data
+            updateTabData(tabName);
+        }
+
+        function updateAnalyticsData() {
+            // Update main stats
+            document.getElementById('totalUsers').textContent = users.length + analyticsData.userActivities.filter(a => a.user === 'Guest').length;
+            document.getElementById('registeredUsers').textContent = users.length;
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('totalRevenue').textContent = analyticsData.totalRevenue.toLocaleString();
+            document.getElementById('activeSessions').textContent = analyticsData.activeSessions;
+            document.getElementById('pageViews').textContent = analyticsData.pageViews;
+        }
+
+        function updateTabData(tabName) {
+            switch(tabName) {
+                case 'overview':
+                    updateOverviewTab();
+                    break;
+                case 'users':
+                    updateUsersTab();
+                    break;
+                case 'orders':
+                    updateOrdersTab();
+                    break;
+                case 'products':
+                    updateProductsTab();
+                    break;
+                case 'realtime':
+                    updateRealtimeTab();
+                    break;
+            }
+        }
+
+        function updateOverviewTab() {
+            // Recent Activity
+            const recentActivity = document.getElementById('recentActivity');
+            recentActivity.innerHTML = analyticsData.userActivities.slice(0, 10).map(activity => `
+                <div class="flex items-center justify-between p-3 bg-white rounded border">
+                    <div>
+                        <p class="font-medium">${activity.type}</p>
+                        <p class="text-sm text-gray-600">${activity.description}</p>
+                        <p class="text-xs text-gray-400">${activity.user}</p>
+                    </div>
+                    <span class="text-xs text-gray-400">${formatTime(activity.timestamp)}</span>
+                </div>
+            `).join('');
+
+            // Top Categories
+            const topCategories = document.getElementById('topCategories');
+            const sortedCategories = Object.entries(analyticsData.categoryViews)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5);
+            
+            topCategories.innerHTML = sortedCategories.map(([category, views]) => `
+                <div class="flex items-center justify-between p-3 bg-white rounded border">
+                    <span class="font-medium capitalize">${category}</span>
+                    <span class="bg-turquoise-100 text-turquoise-800 px-2 py-1 rounded text-sm">${views} views</span>
+                </div>
+            `).join('');
+        }
+
+        function updateUsersTab() {
+            const usersTable = document.getElementById('usersTable');
+            usersTable.innerHTML = users.map(user => {
+                const userOrders = orders.filter(order => order.userId === user.username);
+                const totalSpent = userOrders.reduce((sum, order) => sum + order.total, 0);
+                
+                return `
+                    <tr class="border-b">
+                        <td class="p-3">${user.username}</td>
+                        <td class="p-3">${user.name}</td>
+                        <td class="p-3">${user.email}</td>
+                        <td class="p-3">${userOrders.length}</td>
+                        <td class="p-3">₹${totalSpent.toLocaleString()}</td>
+                        <td class="p-3">
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+                                ${user.isAdmin ? 'Admin' : 'Active'}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateOrdersTab() {
+            // Order Status Chart
+            const orderStatusChart = document.getElementById('orderStatusChart');
+            const statusCounts = orders.reduce((acc, order) => {
+                acc[order.status] = (acc[order.status] || 0) + 1;
+                return acc;
+            }, {});
+
+            const statusColors = {
+                'Order Placed': 'bg-blue-500',
+                'Processing': 'bg-yellow-500',
+                'Shipped': 'bg-purple-500',
+                'Out for Delivery': 'bg-orange-500',
+                'Delivered': 'bg-green-500',
+                'Cancelled': 'bg-red-500'
+            };
+
+            orderStatusChart.innerHTML = Object.entries(statusCounts).map(([status, count]) => `
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">${status}</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-20 bg-gray-200 rounded-full h-2">
+                            <div class="${statusColors[status]} h-2 rounded-full" 
+                                 style="width: ${(count / orders.length) * 100}%"></div>
+                        </div>
+                        <span class="text-sm font-semibold">${count}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Recent Orders
+            const recentOrders = document.getElementById('recentOrders');
+            recentOrders.innerHTML = orders.slice(0, 10).map(order => `
+                <div class="flex items-center justify-between p-3 bg-white rounded border">
+                    <div>
+                        <p class="font-medium">Order #${order.id}</p>
+                        <p class="text-sm text-gray-600">${order.items.length} items - ₹${order.total.toLocaleString()}</p>
+                    </div>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">${order.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateProductsTab() {
+            // Top Products
+            const topProducts = document.getElementById('topProducts');
+            const sortedProducts = Object.entries(analyticsData.productViews)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 10);
+
+            topProducts.innerHTML = sortedProducts.map(([productName, views]) => `
+                <div class="flex items-center justify-between p-3 bg-white rounded border">
+                    <span class="font-medium text-sm">${productName.length > 30 ? productName.substring(0, 30) + '...' : productName}</span>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">${views} views</span>
+                </div>
+            `).join('');
+
+            // Category Performance
+            const categoryPerformance = document.getElementById('categoryPerformance');
+            const categoryOrders = orders.reduce((acc, order) => {
+                order.items.forEach(item => {
+                    const category = item.product.category;
+                    if (!acc[category]) acc[category] = { orders: 0, revenue: 0 };
+                    acc[category].orders += item.quantity;
+                    acc[category].revenue += item.product.price * item.quantity;
+                });
+                return acc;
+            }, {});
+
+            categoryPerformance.innerHTML = Object.entries(categoryOrders)
+                .sort(([,a], [,b]) => b.revenue - a.revenue)
+                .map(([category, data]) => `
+                    <div class="flex items-center justify-between p-3 bg-white rounded border">
+                        <div>
+                            <p class="font-medium capitalize">${category}</p>
+                            <p class="text-sm text-gray-600">${data.orders} items sold</p>
+                        </div>
+                        <span class="text-sm font-semibold">₹${data.revenue.toLocaleString()}</span>
+                    </div>
+                `).join('');
+        }
+
+        function updateRealtimeTab() {
+            // Live Activity Feed
+            const liveActivityFeed = document.getElementById('liveActivityFeed');
+            liveActivityFeed.innerHTML = analyticsData.liveActivities.map(activity => `
+                <div class="flex items-center justify-between p-2 bg-white rounded border text-sm">
+                    <div>
+                        <span class="font-medium">${activity.type}:</span>
+                        <span class="text-gray-600">${activity.description}</span>
+                    </div>
+                    <span class="text-xs text-gray-400">${formatTime(activity.timestamp)}</span>
+                </div>
+            `).join('');
+
+            // Update last update time
+            document.getElementById('lastUpdate').textContent = formatTime(new Date());
+        }
+
+        function refreshAnalytics() {
+            addActivity('Analytics Refresh', 'Admin refreshed analytics data');
+            updateAnalyticsData();
+            updateTabData('realtime');
+            showNotification('Analytics data refreshed!', 'success');
+        }
+
+        function formatTime(date) {
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+            
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Update order creation to track analytics
+        function trackOrderPlacement(order) {
+            analyticsData.totalRevenue += order.total;
+            analyticsData.dailyOrders++;
+            addActivity('Order Placed', `Order #${order.id} placed for ₹${order.total.toLocaleString()}`);
+        }
+
+        // Initialize page view tracking
+        window.addEventListener('load', function() {
+            trackPageView();
+            addActivity('Session Started', 'User started browsing the website');
+        });
+
+        // Utility functions
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colors = {
+                success: 'bg-green-600',
+                error: 'bg-red-600',
+                info: 'bg-turquoise-600'
+            };
+            
+            notification.className = `fixed top-4 right-4 ${colors[type]} text-white px-4 py-2 rounded-lg z-50`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm === '') {
+                showCategory(currentCategory);
+                return;
+            }
+            
+            currentProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.subcategory.toLowerCase().includes(searchTerm)
+            );
+            
+            currentPage = 0;
+            displayedProducts = [];
+            document.getElementById('productsGrid').innerHTML = '';
+            updateProductCount();
+            loadMoreProducts();
+        });
+
+        // Initialize the page - show auth modal first
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show auth modal on page load
+            document.getElementById('authModal').classList.remove('hidden');
+            
+            // Initialize analytics with sample data
+            initializeSampleAnalyticsData();
+            
+            // Add event listeners for payment form interactions
+            setupPaymentFormListeners();
+        });
+
+        function initializeSampleAnalyticsData() {
+            // Add some sample activities
+            const sampleActivities = [
+                { type: 'User Registration', description: 'New user registered', timestamp: new Date(Date.now() - 3600000), user: 'John Doe' },
+                { type: 'Category View', description: 'Viewed electronics category', timestamp: new Date(Date.now() - 7200000), user: 'Jane Smith' },
+                { type: 'Add to Cart', description: 'Added Samsung Galaxy S24 to cart', timestamp: new Date(Date.now() - 1800000), user: 'Mike Johnson' },
+                { type: 'Order Placed', description: 'Order #RK000001 placed for ₹79,999', timestamp: new Date(Date.now() - 5400000), user: 'Sarah Wilson' }
+            ];
+            
+            analyticsData.userActivities = sampleActivities;
+            analyticsData.liveActivities = [...sampleActivities];
+            
+            // Sample category views
+            analyticsData.categoryViews = {
+                'electronics': 45,
+                'clothing': 32,
+                'books': 18,
+                'health': 25,
+                'home': 29,
+                'beauty': 21,
+                'toys': 12
+            };
+            
+            // Sample product views
+            analyticsData.productViews = {
+                'Samsung Galaxy S24': 15,
+                'iPhone 15': 12,
+                'Sony WH-1000XM5': 8,
+                'Nike Air Max 270': 10,
+                'The Alchemist by Paulo Coelho': 6
+            };
+            
+            analyticsData.pageViews = 156;
+            analyticsData.totalRevenue = 245000;
+            
+            // Add sample orders
+            const sampleOrders = [
+                {
+                    id: 'RK000001',
+                    userId: 'user2',
+                    items: [{ product: { name: 'Samsung Galaxy S24', price: 79999, category: 'electronics' }, quantity: 1 }],
+                    total: 79999,
+                    status: 'Delivered',
+                    orderDate: new Date(Date.now() - 86400000).toLocaleDateString('en-IN')
+                },
+                {
+                    id: 'RK000002',
+                    userId: 'user3',
+                    items: [{ product: { name: 'Nike Air Max 270', price: 12795, category: 'clothing' }, quantity: 1 }],
+                    total: 12795,
+                    status: 'Shipped',
+                    orderDate: new Date(Date.now() - 43200000).toLocaleDateString('en-IN')
+                },
+                {
+                    id: 'RK000003',
+                    userId: 'user4',
+                    items: [{ product: { name: 'Sony WH-1000XM5', price: 29990, category: 'electronics' }, quantity: 1 }],
+                    total: 29990,
+                    status: 'Processing',
+                    orderDate: new Date().toLocaleDateString('en-IN')
+                }
+            ];
+            
+            orders.push(...sampleOrders);
+            orderCounter = 4;
+        }
+
+        function setupPaymentFormListeners() {
+            // Phone number - only allow digits and limit to 10
+            document.getElementById('phoneNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^0-9]/g, '');
+                if (value.length > 10) {
+                    value = value.substring(0, 10);
+                }
+                e.target.value = value;
+                
+                // Remove error styling if valid
+                if (value.length === 10) {
+                    e.target.classList.remove('border-red-500');
+                }
+            });
+
+            // PIN code - only allow digits and limit to 6
+            document.getElementById('pinCode').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^0-9]/g, '');
+                if (value.length > 6) {
+                    value = value.substring(0, 6);
+                }
+                e.target.value = value;
+                
+                // Remove error styling if valid
+                if (value.length === 6) {
+                    e.target.classList.remove('border-red-500');
+                }
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+
+            // Expiry date formatting
+            document.getElementById('expiryDate').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+
+            // CVV numeric only
+            document.getElementById('cvv').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            });
+
+            // UPI PIN numeric only
+            document.getElementById('upiPin').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            });
+
+            // Show/hide other reason textarea
+            document.querySelectorAll('input[name="cancellationReason"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const otherReasonDiv = document.getElementById('otherReasonDiv');
+                    if (this.value === 'other') {
+                        otherReasonDiv.classList.remove('hidden');
+                    } else {
+                        otherReasonDiv.classList.add('hidden');
+                    }
+                });
+            });
+        }
+    </script>
+<script src="C:\Phython\ecommerce\assests\js\script.js"></script>
+</html>
