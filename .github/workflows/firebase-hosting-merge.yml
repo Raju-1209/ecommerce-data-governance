@@ -18,7 +18,3 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAJUKART_AE5CA }}
           channelId: live
           projectId: rajukart-ae5ca
-<<<<<<< HEAD
-
-=======
->>>>>>> 4f97a67 (chore: add Firebase Hosting config)
